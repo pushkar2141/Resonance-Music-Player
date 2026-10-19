@@ -1,0 +1,72 @@
+/* ==========================================================================
+   RESONANCE — THEME MODES, GLASS INTENSITY PRESETS & FALLBACKS
+   Section 14, Section 16.1 & Section 19 Specification
+   ========================================================================== */
+
+/* Glass Intensity Presets (Subtle / Balanced / Rich) */
+:root[data-glass-preset="subtle"] {
+  --glass-blur-px: 18px;
+  --glass-opacity: 0.36;
+  --glass-saturate: 165%;
+}
+
+:root[data-glass-preset="balanced"] {
+  --glass-blur-px: 26px;
+  --glass-opacity: 0.46;
+  --glass-saturate: 195%;
+}
+
+:root[data-glass-preset="rich"] {
+  --glass-blur-px: 34px;
+  --glass-opacity: 0.52;
+  --glass-saturate: 225%;
+}
+
+/* Reduced-Effects Mode (Section 16.1 & Section 19) */
+:root[data-reduced-effects="true"] {
+  --g0-blur: 4px !important;
+  --g1-blur: 8px !important;
+  --g2-blur: 12px !important;
+  --g3-blur: 14px !important;
+  --g4-blur: 16px !important;
+}
+
+:root[data-reduced-effects="true"] .ambient-orb:nth-child(n+3) {
+  display: none !important;
+}
+
+/* Reduced Motion (OS or In-App Setting) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+:root[data-motion="reduced"] *,
+:root[data-motion="reduced"] *::before,
+:root[data-motion="reduced"] *::after {
+  animation-play-state: paused !important;
+  transition-duration: 50ms !important;
+}
+
+/* Fallback for browsers without backdrop-filter support (Section 19) */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  :root[data-mode="light"] .glass-g1,
+  :root[data-mode="light"] .glass-g2,
+  :root[data-mode="light"] .glass-g3,
+  :root[data-mode="light"] .glass-g4 {
+    background-color: rgba(255, 255, 255, 0.90) !important;
+  }
+
+  :root[data-mode="dark"] .glass-g1,
+  :root[data-mode="dark"] .glass-g2,
+  :root[data-mode="dark"] .glass-g3,
+  :root[data-mode="dark"] .glass-g4 {
+    background-color: rgba(16, 20, 44, 0.94) !important;
+  }
+}

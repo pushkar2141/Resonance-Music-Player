@@ -1,0 +1,115 @@
+/* ==========================================================================
+   RESONANCE — FEEL EVERY FREQUENCY ("LIQUID CRYSTAL" DESIGN TOKENS)
+   Section 4.1 & Section 5 Specification
+   ========================================================================== */
+
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  src: url('/static/fonts/PlusJakartaSans-Variable.woff2') format('woff2');
+  font-weight: 300 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* ------------------------------------------------------------------------
+     5.4 Typography Tokens
+     ------------------------------------------------------------------------ */
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* Scale: 12 / 13 / 14 / 16 / 20 / 28 / 40 / 56 */
+  --fs-12: 0.75rem;
+  --fs-13: 0.8125rem;
+  --fs-14: 0.875rem;
+  --fs-16: 1rem;
+  --fs-20: 1.25rem;
+  --fs-28: clamp(1.375rem, 2.2vw, 1.75rem);
+  --fs-40: clamp(1.85rem, 3.5vw, 2.5rem);
+  --fs-56: clamp(2.25rem, 4.8vw, 3.5rem);
+
+  --fw-body: 400;
+  --fw-ui: 500;
+  --fw-semi: 600;
+  --fw-display: 700;
+
+  --tracking-tight: -0.022em;
+  --tracking-normal: 0em;
+  --tracking-caption: 0.014em;
+
+  /* ------------------------------------------------------------------------
+     4.1 & 5.5 Liquid Crystal Shape, Spacing & Elevation
+     Panels: 30–36px | Cards: 24px | Controls: 999px (round)
+     ------------------------------------------------------------------------ */
+  --r-chip: 12px;
+  --r-card: 24px;
+  --r-panel: 32px;
+  --r-modal: 36px;
+  --r-pill: 999px;
+
+  /* Spacing Scale: 4 / 8 / 12 / 16 / 24 / 32 / 48 / 64 */
+  --sp-4: 4px;
+  --sp-8: 8px;
+  --sp-12: 12px;
+  --sp-16: 16px;
+  --sp-24: 24px;
+  --sp-32: 32px;
+  --sp-48: 48px;
+  --sp-64: 64px;
+
+  /* ------------------------------------------------------------------------
+     5.6 Motion Tokens
+     ------------------------------------------------------------------------ */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --spring-soft: cubic-bezier(0.34, 1.3, 0.64, 1);
+
+  --dur-press: 120ms;
+  --dur-hover: 220ms;
+  --dur-panel: 360ms;
+  --dur-sheet: 600ms;
+  --dur-palette: 700ms;
+  --dur-color: 800ms;
+
+  /* ------------------------------------------------------------------------
+     4.1 & 16.1 User-Adjustable Liquid Crystal Glass Intensity Parameters
+     Default preset: "rich" (Blur: 34px, Opacity: 0.52, Saturate: 225%)
+     ------------------------------------------------------------------------ */
+  --glass-blur-px: 34px;
+  --glass-opacity: 0.52;
+  --glass-saturate: 225%;
+
+  /* Derived per-level blurs from --glass-blur-px */
+  --g0-blur: calc(var(--glass-blur-px) * 0.32);
+  --g1-blur: calc(var(--glass-blur-px) * 0.72);
+  --g2-blur: var(--glass-blur-px);
+  --g3-blur: calc(var(--glass-blur-px) * 1.15);
+  --g4-blur: calc(var(--glass-blur-px) * 1.38);
+
+  --g0-sat: 140%;
+  --g1-sat: 200%;
+  --g2-sat: var(--glass-saturate);
+  --g3-sat: 235%;
+  --g4-sat: 240%;
+
+  /* ------------------------------------------------------------------------
+     5.2 Semantic Status Tokens (Glass-friendly)
+     ------------------------------------------------------------------------ */
+  --c-success: #0d9462;
+  --c-success-bg: rgba(13, 148, 98, 0.14);
+  --c-warning: #d97706;
+  --c-warning-bg: rgba(217, 119, 6, 0.15);
+  --c-error: #e11d48;
+  --c-error-bg: rgba(225, 29, 72, 0.15);
+
+  /* Layout Dimensions */
+  --sidebar-w: 264px;
+  --sidebar-collapsed-w: 80px;
+  --topbar-h: 68px;
+  --player-h: 92px;
+  --mobile-tab-h: 64px;
+  --mobile-mini-h: 66px;
+
+  /* Inline SVG Fractal Noise Data URI (~3% tactile crystal grain) */
+  --grain-svg: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.032'/%3E%3C/svg%3E");
+}

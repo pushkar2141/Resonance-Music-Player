@@ -1,0 +1,916 @@
+/* ==========================================================================
+   RESONANCE — "LIQUID CRYSTAL" UI COMPONENTS & APPEARANCE STUDIO
+   Zero hard-coded palette colors; 100% token-driven
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Buttons & Icon Controls (Fully round 999px controls per Section 4.1)
+   -------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-8);
+  min-height: 42px;
+  padding: 0 var(--sp-20, 20px);
+  border-radius: var(--r-pill);
+  font-size: var(--fs-14);
+  font-weight: var(--fw-semi);
+  white-space: nowrap;
+  transition:
+    transform var(--dur-press) var(--ease-out),
+    background-color var(--dur-hover) var(--ease-out),
+    box-shadow var(--dur-hover) var(--ease-out),
+    border-color var(--dur-hover) var(--ease-out),
+    color var(--dur-hover) var(--ease-out);
+}
+
+.btn svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.btn:active {
+  transform: scale(0.96);
+}
+
+.btn-primary {
+  background-color: var(--acc);
+  color: var(--on-acc);
+  border: 1px solid color-mix(in srgb, var(--edge-top) 45%, var(--acc));
+  box-shadow:
+    inset 0 2px 1px 0 rgba(255, 255, 255, 0.35),
+    0 8px 24px -4px var(--glow);
+}
+
+.btn-primary:hover {
+  filter: brightness(1.06);
+  box-shadow:
+    inset 0 2px 2px 0 rgba(255, 255, 255, 0.48),
+    0 12px 28px -4px var(--glow);
+}
+
+.btn-glass {
+  background-color: var(--g1-fill);
+  color: var(--txt);
+  border: 1px solid var(--edge);
+  backdrop-filter: blur(var(--g1-blur)) saturate(var(--g1-sat));
+  -webkit-backdrop-filter: blur(var(--g1-blur)) saturate(var(--g1-sat));
+  box-shadow:
+    inset 0 2px 1px 0 var(--edge-top),
+    inset 0 -6px 14px -6px var(--glow),
+    0 6px 18px -4px var(--sh);
+}
+
+.btn-glass:hover {
+  border-color: color-mix(in srgb, var(--acc) 45%, var(--edge));
+  background-color: var(--g2-fill);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--sub);
+  border: 1px solid transparent;
+}
+
+.btn-ghost:hover {
+  color: var(--txt);
+  background-color: color-mix(in srgb, var(--txt) 7%, transparent);
+}
+
+.btn-danger {
+  background-color: var(--c-error-bg);
+  color: var(--c-error);
+  border: 1px solid color-mix(in srgb, var(--c-error) 35%, transparent);
+}
+
+.btn-danger:hover {
+  background-color: var(--c-error);
+  color: #ffffff;
+}
+
+.btn-sm {
+  min-height: 34px;
+  padding: 0 var(--sp-12);
+  font-size: var(--fs-13);
+}
+
+.btn-lg {
+  min-height: 48px;
+  padding: 0 var(--sp-24);
+  font-size: var(--fs-16);
+}
+
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: var(--r-pill);
+  color: var(--sub);
+  background: transparent;
+  border: 1px solid transparent;
+  flex-shrink: 0;
+  transition:
+    transform var(--dur-press) var(--ease-out),
+    color var(--dur-hover) var(--ease-out),
+    background-color var(--dur-hover) var(--ease-out),
+    border-color var(--dur-hover) var(--ease-out),
+    box-shadow var(--dur-hover) var(--ease-out);
+}
+
+.btn-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.btn-icon:hover {
+  color: var(--txt);
+  background-color: var(--g1-fill);
+  border-color: var(--edge);
+  box-shadow: inset 0 1.5px 1px 0 var(--edge-top);
+}
+
+.btn-icon:active {
+  transform: scale(0.92);
+}
+
+.btn-icon.is-active {
+  color: var(--acc);
+  background-color: color-mix(in srgb, var(--acc) 15%, var(--g1-fill));
+  border-color: color-mix(in srgb, var(--acc) 45%, var(--edge));
+}
+
+.btn-icon-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--r-pill);
+  background-color: var(--acc);
+  color: var(--on-acc);
+  border: 1px solid color-mix(in srgb, var(--edge-top) 45%, var(--acc));
+  box-shadow:
+    inset 0 2px 1.5px 0 rgba(255, 255, 255, 0.4),
+    0 10px 26px -4px var(--glow);
+  transition:
+    transform var(--dur-press) var(--ease-out),
+    filter var(--dur-hover) var(--ease-out),
+    box-shadow var(--dur-hover) var(--ease-out);
+}
+
+.btn-icon-primary svg {
+  width: 22px;
+  height: 22px;
+}
+
+.btn-icon-primary:hover {
+  color: var(--on-acc);
+  background-color: var(--acc);
+  filter: brightness(1.07);
+  transform: scale(1.04);
+}
+
+.btn-icon-lg {
+  width: 60px;
+  height: 60px;
+}
+
+.btn-icon-lg svg {
+  width: 26px;
+  height: 26px;
+}
+
+/* Favorite Heart Pulse */
+.btn-like.is-liked {
+  color: #e11d48 !important;
+}
+
+/* --------------------------------------------------------------------------
+   2. Chips, Badges & Segmented Controls
+   -------------------------------------------------------------------------- */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 14px;
+  border-radius: var(--r-pill);
+  font-size: var(--fs-13);
+  font-weight: var(--fw-semi);
+  white-space: nowrap;
+  color: var(--sub);
+  background-color: var(--g1-fill);
+  border: 1px solid var(--edge);
+  box-shadow: inset 0 1.5px 1px 0 var(--edge-top);
+  transition: all var(--dur-hover) var(--ease-out);
+}
+
+.chip svg {
+  width: 15px;
+  height: 15px;
+}
+
+.chip:hover {
+  color: var(--txt);
+  border-color: color-mix(in srgb, var(--acc) 45%, var(--edge));
+}
+
+.chip.is-active {
+  background-color: var(--acc);
+  color: var(--on-acc);
+  border-color: var(--acc);
+  box-shadow:
+    inset 0 2px 1px 0 rgba(255, 255, 255, 0.35),
+    0 6px 18px -4px var(--glow);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--r-pill);
+  font-size: var(--fs-12);
+  font-weight: var(--fw-semi);
+  background-color: color-mix(in srgb, var(--acc) 16%, transparent);
+  color: var(--acc);
+  border: 1px solid color-mix(in srgb, var(--acc) 32%, transparent);
+}
+
+/* --------------------------------------------------------------------------
+   3. Inputs, Search Box & Custom Range Sliders
+   -------------------------------------------------------------------------- */
+.input-glass,
+.select-glass {
+  width: 100%;
+  min-height: 44px;
+  padding: 0 var(--sp-16);
+  border-radius: var(--r-pill);
+  background-color: var(--g1-fill);
+  color: var(--txt);
+  border: 1px solid var(--edge);
+  box-shadow:
+    inset 0 2px 1px 0 var(--edge-top),
+    inset 0 -4px 12px -4px var(--glow);
+  font-size: var(--fs-14);
+  transition: border-color var(--dur-hover) var(--ease-out), box-shadow var(--dur-hover) var(--ease-out);
+}
+
+.input-glass::placeholder {
+  color: var(--muted);
+}
+
+.input-glass:focus,
+.select-glass:focus {
+  border-color: var(--acc);
+  box-shadow:
+    inset 0 2px 1px 0 var(--edge-top),
+    0 0 0 3px color-mix(in srgb, var(--acc) 22%, transparent);
+}
+
+.select-glass option {
+  background-color: var(--bgA);
+  color: var(--txt);
+}
+
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 380px;
+}
+
+.search-box .search-icon {
+  position: absolute;
+  left: 15px;
+  width: 17px;
+  height: 17px;
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.search-box .input-glass {
+  padding-left: 42px;
+  padding-right: 40px;
+}
+
+.search-box .search-clear {
+  position: absolute;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--r-pill);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--sub);
+}
+
+.search-box .search-kbd {
+  position: absolute;
+  right: 14px;
+  padding: 2px 7px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: var(--fw-semi);
+  color: var(--muted);
+  background: var(--track);
+  pointer-events: none;
+}
+
+/* Custom Liquid Crystal Progress / Seek / Volume Bar */
+.progress-track {
+  position: relative;
+  width: 100%;
+  height: 6px;
+  border-radius: var(--r-pill);
+  background-color: var(--track);
+  cursor: pointer;
+  touch-action: none;
+}
+
+.progress-track::before {
+  content: '';
+  position: absolute;
+  inset: -12px 0;
+}
+
+.progress-fill {
+  position: relative;
+  height: 100%;
+  border-radius: var(--r-pill);
+  background: linear-gradient(90deg, var(--o1) 0%, var(--acc) 100%);
+  box-shadow: 0 0 12px var(--glow);
+  pointer-events: none;
+}
+
+.progress-thumb {
+  position: absolute;
+  right: -7px;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  border-radius: var(--r-pill);
+  background-color: var(--acc);
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 8px var(--sh), 0 0 10px var(--glow);
+  transform: translateY(-50%) scale(0.85);
+  transition: transform var(--dur-press) var(--ease-out);
+}
+
+.progress-track:hover .progress-thumb,
+.progress-track.is-dragging .progress-thumb {
+  transform: translateY(-50%) scale(1.15);
+}
+
+/* Native Range Input Styling (Settings & EQ) */
+input[type="range"].crystal-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: var(--r-pill);
+  background: var(--track);
+  cursor: pointer;
+}
+
+input[type="range"].crystal-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: var(--r-pill);
+  background: var(--acc);
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 8px var(--sh), 0 0 10px var(--glow);
+  transition: transform var(--dur-press) var(--ease-out);
+}
+
+input[type="range"].crystal-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+/* --------------------------------------------------------------------------
+   4. Media Cards (24px radius), Song Rows & Playlist Mosaic
+   -------------------------------------------------------------------------- */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: var(--sp-24);
+}
+
+.media-card {
+  display: flex;
+  flex-direction: column;
+  padding: var(--sp-16);
+  border-radius: var(--r-card);
+  cursor: pointer;
+  gap: var(--sp-12);
+}
+
+.media-card-art-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 18px;
+  overflow: hidden;
+  background-color: var(--track);
+  box-shadow: 0 10px 24px -6px var(--sh);
+}
+
+.media-card-art-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--dur-panel) var(--ease-out);
+}
+
+.media-card:hover .media-card-art-wrap img {
+  transform: scale(1.045);
+}
+
+.media-card-play-fab {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--r-pill);
+  background-color: var(--acc);
+  color: var(--on-acc);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    inset 0 2px 1px 0 rgba(255, 255, 255, 0.4),
+    0 8px 20px rgba(0, 0, 0, 0.28);
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity var(--dur-hover) var(--ease-out), transform var(--dur-hover) var(--ease-out);
+}
+
+.media-card:hover .media-card-play-fab,
+.media-card.is-playing-surface .media-card-play-fab {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.media-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.media-card-title {
+  font-size: var(--fs-16);
+  font-weight: var(--fw-semi);
+  color: var(--txt);
+}
+
+.media-card-sub {
+  font-size: var(--fs-13);
+  color: var(--sub);
+}
+
+.media-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 2px;
+}
+
+/* 2x2 Playlist Mosaic Cover */
+.playlist-mosaic {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  width: 100%;
+  height: 100%;
+}
+
+.playlist-mosaic img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Song List Rows */
+.song-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-8);
+}
+
+.song-row {
+  display: grid;
+  grid-template-columns: 36px 48px minmax(140px, 2fr) minmax(100px, 1.2fr) 90px auto;
+  align-items: center;
+  gap: var(--sp-12);
+  padding: 10px var(--sp-16);
+  border-radius: 18px;
+  cursor: pointer;
+}
+
+.song-row-art {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 4px 12px var(--sh);
+}
+
+/* Animated Equalizer Playing Bars */
+.eq-bars {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2.5px;
+  height: 14px;
+}
+
+.eq-bars span {
+  width: 3px;
+  background-color: var(--acc);
+  border-radius: 2px;
+  animation: eqBounce 0.9s ease-in-out infinite alternate;
+}
+
+.eq-bars span:nth-child(1) { height: 45%; animation-delay: 0s; }
+.eq-bars span:nth-child(2) { height: 100%; animation-delay: 0.2s; }
+.eq-bars span:nth-child(3) { height: 65%; animation-delay: 0.4s; }
+
+@keyframes eqBounce {
+  0% { height: 25%; }
+  100% { height: 100%; }
+}
+
+/* --------------------------------------------------------------------------
+   5. Settings -> Appearance Studio (Section 16.1)
+   -------------------------------------------------------------------------- */
+.appearance-studio {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: var(--sp-24);
+  align-items: start;
+}
+
+.palette-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+  gap: var(--sp-12);
+}
+
+.palette-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-12);
+  padding: var(--sp-16);
+  border-radius: var(--r-card);
+  text-align: left;
+  cursor: pointer;
+  position: relative;
+  transition: all var(--dur-hover) var(--ease-out);
+}
+
+.palette-card[aria-pressed="true"] {
+  border-color: var(--acc) !important;
+  box-shadow:
+    inset 0 2px 2px 0 var(--edge-top),
+    inset 0 0 0 1.5px var(--acc),
+    inset 0 -10px 24px -6px var(--glow),
+    0 12px 32px -6px var(--sh),
+    0 0 24px -4px var(--glow) !important;
+}
+
+.palette-swatches {
+  display: flex;
+  align-items: center;
+  height: 38px;
+  border-radius: var(--r-pill);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.palette-swatches span {
+  flex: 1;
+  height: 100%;
+}
+
+.palette-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-8);
+}
+
+.palette-card-name {
+  font-size: var(--fs-14);
+  font-weight: var(--fw-semi);
+  color: var(--txt);
+}
+
+.palette-check-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: var(--r-pill);
+  border: 1.5px solid var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.palette-card[aria-pressed="true"] .palette-check-dot {
+  background-color: var(--acc);
+  border-color: var(--acc);
+  color: var(--on-acc);
+}
+
+/* Miniature Live App Preview (Section 16.1) */
+.mini-preview-shell {
+  position: relative;
+  border-radius: var(--r-card);
+  padding: var(--sp-16);
+  overflow: hidden;
+  border: 1px solid var(--edge);
+  background: linear-gradient(135deg, var(--preview-bgA, var(--bgA)) 0%, var(--preview-bgB, var(--bgB)) 100%);
+  color: var(--preview-txt, var(--txt));
+  box-shadow:
+    inset 0 2px 1.5px 0 var(--edge-top),
+    0 16px 40px -8px var(--sh);
+  transition: background 350ms var(--ease-out), color 350ms var(--ease-out);
+}
+
+.mini-preview-orb-1,
+.mini-preview-orb-2 {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  filter: blur(28px);
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.mini-preview-orb-1 {
+  top: -20px;
+  left: -20px;
+  background: var(--preview-o1, var(--o1));
+}
+
+.mini-preview-orb-2 {
+  bottom: -20px;
+  right: -20px;
+  background: var(--preview-o2, var(--o2));
+}
+
+.mini-preview-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 68px 1fr;
+  gap: 10px;
+  min-height: 156px;
+}
+
+.mini-preview-sidebar {
+  border-radius: 16px;
+  padding: 10px 8px;
+  background: rgba(255, 255, 255, 0.28);
+  backdrop-filter: blur(16px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+:root[data-mode="dark"] .mini-preview-sidebar,
+.mini-preview-shell[data-preview-mode="dark"] .mini-preview-sidebar {
+  background: rgba(18, 24, 52, 0.48);
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+.mini-nav-pill {
+  height: 10px;
+  border-radius: 999px;
+  background: currentColor;
+  opacity: 0.22;
+}
+
+.mini-nav-pill.is-active {
+  background: var(--preview-acc, var(--acc));
+  opacity: 1;
+}
+
+.mini-preview-main {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.mini-preview-card {
+  border-radius: 16px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.34);
+  backdrop-filter: blur(18px) saturate(210%);
+  border: 1px solid rgba(255, 255, 255, 0.48);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+:root[data-mode="dark"] .mini-preview-card,
+.mini-preview-shell[data-preview-mode="dark"] .mini-preview-card {
+  background: rgba(18, 24, 52, 0.54);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.mini-preview-art {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--preview-o1, var(--o1)), var(--preview-acc, var(--acc)));
+  flex-shrink: 0;
+}
+
+.mini-preview-player {
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.42);
+  backdrop-filter: blur(22px) saturate(220%);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+:root[data-mode="dark"] .mini-preview-player,
+.mini-preview-shell[data-preview-mode="dark"] .mini-preview-player {
+  background: rgba(18, 24, 52, 0.65);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.mini-preview-play-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  background: var(--preview-acc, var(--acc));
+  color: var(--preview-on-acc, var(--on-acc));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* --------------------------------------------------------------------------
+   6. Modals, Sheets, Toasts, Empty States & Skeletons
+   -------------------------------------------------------------------------- */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-24);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-panel) var(--ease-out);
+}
+
+.modal-backdrop.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-dialog {
+  width: 100%;
+  max-width: 580px;
+  max-height: 88dvh;
+  overflow-y: auto;
+  padding: var(--sp-24);
+  transform: translateY(14px) scale(0.97);
+  transition: transform var(--dur-panel) var(--ease-out);
+}
+
+.modal-backdrop.is-open .modal-dialog {
+  transform: translateY(0) scale(1);
+}
+
+.toast-stack {
+  position: fixed;
+  right: var(--sp-24);
+  bottom: calc(var(--player-h) + var(--sp-32));
+  z-index: 1100;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-8);
+  max-width: 360px;
+  pointer-events: none;
+}
+
+.toast-item {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-12);
+  padding: 12px 18px;
+  border-radius: var(--r-pill);
+  pointer-events: auto;
+  animation: toastSlideIn var(--dur-panel) var(--ease-out);
+}
+
+@keyframes toastSlideIn {
+  from { opacity: 0; transform: translateY(12px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.empty-state-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--sp-12);
+  padding: var(--sp-48) var(--sp-24);
+  max-width: 560px;
+  margin: var(--sp-24) auto;
+}
+
+.empty-state-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--r-pill);
+  background-color: color-mix(in srgb, var(--acc) 16%, transparent);
+  color: var(--acc);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 2px 1px 0 var(--edge-top), 0 8px 24px var(--glow);
+}
+
+.empty-state-icon svg {
+  width: 30px;
+  height: 30px;
+}
+
+/* Shimmer Skeleton Loader */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--track);
+  border-radius: var(--r-card);
+}
+
+.skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, var(--hi) 50%, transparent 100%);
+  transform: translateX(-100%);
+  animation: shimmerSweep 1.6s infinite;
+}
+
+@keyframes shimmerSweep {
+  100% { transform: translateX(100%); }
+}
+
+/* --------------------------------------------------------------------------
+   7. 10-Band Studio Equalizer & Frequency Curve
+   -------------------------------------------------------------------------- */
+.eq-sliders-grid {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(44px, 1fr));
+  gap: var(--sp-8);
+  overflow-x: auto;
+  padding: var(--sp-12) 4px;
+}
+
+.eq-band-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-8);
+}
+
+.eq-vertical-wrap {
+  height: 132px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.eq-vertical-wrap input[type="range"] {
+  writing-mode: vertical-lr;
+  direction: rtl;
+  width: 8px;
+  height: 120px;
+  cursor: pointer;
+  accent-color: var(--acc);
+}

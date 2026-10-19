@@ -1,0 +1,536 @@
+/* ==========================================================================
+   RESONANCE — ATMOSPHERIC BACKGROUND & DESKTOP APPLICATION SHELL
+   Section 6, Section 7 & Section 11 Specification
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Atmospheric Background (Orbs + Radial Light + Vignette)
+   Fixed behind everything with pointer-events: none
+   -------------------------------------------------------------------------- */
+.ambient-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none !important;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 15% 18%, color-mix(in srgb, var(--o1) 36%, transparent) 0%, transparent 55%),
+    radial-gradient(circle at 84% 78%, color-mix(in srgb, var(--o2) 34%, transparent) 0%, transparent 58%),
+    linear-gradient(135deg, var(--bgA) 0%, var(--bgB) 100%);
+  transition: background var(--dur-palette) var(--ease-out);
+}
+
+.ambient-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(78px);
+  opacity: 0.52;
+  will-change: transform;
+  pointer-events: none !important;
+  transition: background-color var(--dur-palette) var(--ease-out);
+}
+
+:root[data-mode="dark"] .ambient-orb {
+  opacity: 0.38;
+}
+
+.orb-1 {
+  width: 520px;
+  height: 520px;
+  top: -120px;
+  left: -100px;
+  background-color: var(--o1);
+  animation: orbDrift1 42s ease-in-out infinite alternate;
+}
+
+.orb-2 {
+  width: 480px;
+  height: 480px;
+  bottom: -140px;
+  right: -80px;
+  background-color: var(--o2);
+  animation: orbDrift2 50s ease-in-out infinite alternate;
+}
+
+.orb-3 {
+  width: 380px;
+  height: 380px;
+  top: 32%;
+  left: 44%;
+  background-color: color-mix(in srgb, var(--acc) 60%, var(--o1));
+  opacity: 0.30;
+  animation: orbDrift3 36s ease-in-out infinite alternate;
+}
+
+@keyframes orbDrift1 {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  100% { transform: translate3d(90px, 70px, 0) scale(1.12); }
+}
+
+@keyframes orbDrift2 {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  100% { transform: translate3d(-100px, -65px, 0) scale(1.1); }
+}
+
+@keyframes orbDrift3 {
+  0% { transform: translate3d(-40px, -30px, 0) scale(0.95); }
+  100% { transform: translate3d(60px, 50px, 0) scale(1.08); }
+}
+
+/* Pause orb animations when browser tab is hidden (Section 6) */
+body.tab-hidden .ambient-orb {
+  animation-play-state: paused !important;
+}
+
+.ambient-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, transparent 55%, rgba(0, 0, 0, 0.08) 100%);
+  pointer-events: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   2. Desktop Application Shell (>=1024px)
+   -------------------------------------------------------------------------- */
+.app-layout {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
+  gap: var(--sp-16);
+  height: 100dvh;
+  padding: var(--sp-16);
+  padding-bottom: calc(var(--player-h) + var(--sp-24));
+}
+
+/* Floating Liquid Crystal Sidebar */
+.app-sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: var(--sp-24) var(--sp-16);
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 var(--sp-8) var(--sp-24);
+  cursor: pointer;
+}
+
+.sidebar-brand-logo {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--r-pill);
+  background: linear-gradient(135deg, var(--acc) 0%, color-mix(in srgb, var(--acc) 65%, var(--o1)) 100%);
+  color: var(--on-acc);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow:
+    inset 0 2px 1px 0 rgba(255, 255, 255, 0.45),
+    0 8px 20px -4px var(--glow);
+}
+
+.sidebar-brand-logo svg {
+  width: 26px;
+  height: 26px;
+}
+
+.sidebar-brand-name {
+  font-family: var(--font-display);
+  font-size: var(--fs-20);
+  font-weight: var(--fw-display);
+  letter-spacing: var(--tracking-tight);
+  line-height: 1.1;
+}
+
+.sidebar-brand-tagline {
+  font-size: 11px;
+  font-weight: var(--fw-ui);
+  color: var(--sub);
+}
+
+.sidebar-nav-section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: var(--sp-24);
+}
+
+.sidebar-nav-label {
+  padding: 0 12px 6px;
+  font-size: 11px;
+  font-weight: var(--fw-display);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 44px;
+  padding: 0 14px;
+  border-radius: var(--r-pill);
+  font-size: var(--fs-14);
+  font-weight: var(--fw-ui);
+  color: var(--sub);
+  transition: all var(--dur-hover) var(--ease-out);
+  position: relative;
+}
+
+.nav-item svg {
+  width: 19px;
+  height: 19px;
+  flex-shrink: 0;
+}
+
+.nav-item:hover {
+  color: var(--txt);
+  background-color: color-mix(in srgb, var(--txt) 6%, transparent);
+}
+
+.nav-item.is-active {
+  color: var(--on-acc);
+  background-color: var(--acc);
+  font-weight: var(--fw-semi);
+  box-shadow:
+    inset 0 2px 1px 0 rgba(255, 255, 255, 0.38),
+    0 8px 22px -4px var(--glow);
+}
+
+/* Main Content Column */
+.app-main-col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-16);
+  height: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* Floating Top Bar */
+.app-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-16);
+  height: var(--topbar-h);
+  padding: 0 var(--sp-24);
+  flex-shrink: 0;
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-16);
+  flex: 1;
+  min-width: 0;
+}
+
+.topbar-title-badge {
+  font-family: var(--font-display);
+  font-size: var(--fs-20);
+  font-weight: var(--fw-display);
+  letter-spacing: var(--tracking-tight);
+  white-space: nowrap;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-8);
+  flex-shrink: 0;
+}
+
+/* Scrollable Main View Viewport */
+.app-viewport {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 4px 6px var(--sp-32) 2px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-24);
+}
+
+/* Hero Featured Track Banner */
+.hero-banner {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  align-items: center;
+  gap: var(--sp-24);
+  padding: var(--sp-24);
+  border-radius: var(--r-panel);
+}
+
+.hero-art-wrap {
+  width: 180px;
+  height: 180px;
+  border-radius: var(--r-card);
+  overflow: hidden;
+  box-shadow: 0 16px 40px -8px var(--sh), 0 0 32px -6px var(--glow);
+}
+
+.hero-art-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* --------------------------------------------------------------------------
+   3. Floating Liquid Crystal Bottom Player (Desktop/Tablet)
+   -------------------------------------------------------------------------- */
+.bottom-player {
+  position: fixed;
+  left: var(--sp-16);
+  right: var(--sp-16);
+  bottom: var(--sp-16);
+  height: var(--player-h);
+  z-index: 500;
+  display: grid;
+  grid-template-columns: minmax(200px, 1fr) minmax(320px, 1.6fr) minmax(200px, 1fr);
+  align-items: center;
+  gap: var(--sp-16);
+  padding: 0 var(--sp-24);
+}
+
+.bp-track {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.bp-art-btn {
+  position: relative;
+  width: 58px;
+  height: 58px;
+  border-radius: 16px;
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: 0 8px 20px -4px var(--sh);
+}
+
+.bp-art-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.bp-meta {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 2px;
+}
+
+.bp-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  max-width: 580px;
+  width: 100%;
+  justify-self: center;
+}
+
+.bp-transport {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-12);
+}
+
+.bp-seek-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.bp-time {
+  font-size: var(--fs-12);
+  color: var(--sub);
+  min-width: 38px;
+}
+
+.bp-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--sp-8);
+}
+
+.bp-volume-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 118px;
+}
+
+/* --------------------------------------------------------------------------
+   4. Immersive Expanded Player Sheet (Section 11 & Section 12)
+   -------------------------------------------------------------------------- */
+.expanded-player {
+  position: fixed;
+  inset: var(--sp-16);
+  z-index: 800;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: var(--sp-24) var(--sp-32);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(28px) scale(0.97);
+  transition:
+    opacity var(--dur-sheet) var(--ease-out),
+    transform var(--dur-sheet) var(--ease-out);
+  overflow: hidden;
+}
+
+.expanded-player.is-open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+
+.ep-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-16);
+  z-index: 2;
+}
+
+.ep-body {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  align-items: center;
+  gap: var(--sp-32);
+  flex: 1;
+  min-height: 0;
+  z-index: 2;
+  padding: var(--sp-16) 0;
+}
+
+.ep-stage-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-20, 20px);
+}
+
+/* Vinyl Disc + Tonearm Stage (Section 11) */
+.vinyl-stage {
+  position: relative;
+  width: clamp(210px, 28vh, 300px);
+  height: clamp(210px, 28vh, 300px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vinyl-disc {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  position: relative;
+  background:
+    repeating-radial-gradient(circle at 50% 50%, rgba(255,255,255,0.04) 0px, rgba(0,0,0,0.22) 2px, rgba(20,20,28,0.95) 4px),
+    radial-gradient(circle at 50% 50%, #1d1f2e 0%, #090a10 100%);
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.42),
+    0 0 40px var(--glow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: vinylSpin 16s linear infinite;
+  animation-play-state: paused;
+}
+
+.vinyl-disc.is-spinning {
+  animation-play-state: running;
+}
+
+.vinyl-disc.is-clean-art {
+  border-radius: var(--r-card);
+  animation: none !important;
+  background: none;
+}
+
+.vinyl-label-art {
+  width: 46%;
+  height: 46%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid rgba(255, 255, 255, 0.35);
+  transition: all var(--dur-panel) var(--ease-out);
+}
+
+.vinyl-disc.is-clean-art .vinyl-label-art {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--r-card);
+  border: 1px solid var(--edge);
+}
+
+.vinyl-spindle {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--bgA);
+  border: 2px solid rgba(255, 255, 255, 0.65);
+}
+
+.vinyl-disc.is-clean-art .vinyl-spindle {
+  display: none;
+}
+
+@keyframes vinylSpin {
+  100% { transform: rotate(360deg); }
+}
+
+.visualizer-box {
+  width: 100%;
+  max-width: 520px;
+  height: 112px;
+  border-radius: var(--r-card);
+  overflow: hidden;
+  position: relative;
+}
+
+.visualizer-box canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.ep-side-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--sp-16);
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.ep-tab-panel {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+/* Mobile-only elements hidden on desktop */
+.mobile-tabbar,
+.mobile-mini-player {
+  display: none;
+}

@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+database/*.db
+database/*.db-shm
+database/*.db-wal
+uploads/*
+!uploads/.gitkeep
+covers/*
+!covers/.gitkeep
+.DS_Store
+Thumbs.db

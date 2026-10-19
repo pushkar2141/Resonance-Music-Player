@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="res-grad-primary" x1="6" y1="6" x2="58" y2="58" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#c4b5fd"/>
+      <stop offset="48%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#4f46e5"/>
+    </linearGradient>
+    <linearGradient id="res-grad-accent" x1="16" y1="12" x2="52" y2="52" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#e879f9"/>
+      <stop offset="100%" stop-color="#7c5cff"/>
+    </linearGradient>
+  </defs>
+  <!-- Outer Acoustic Ring -->
+  <circle cx="32" cy="32" r="28" stroke="url(#res-grad-primary)" stroke-width="1.75" stroke-opacity="0.32" stroke-dasharray="6 4"/>
+  <!-- Mid Harmonic Ring -->
+  <path d="M12 32C12 20.954 20.954 12 32 12C43.046 12 52 20.954 52 32C52 39.12 48.28 45.37 42.68 48.92" stroke="url(#res-grad-primary)" stroke-width="2.2" stroke-linecap="round" stroke-opacity="0.68"/>
+  <!-- Geometric Frequency R Monogram -->
+  <path d="M23 45V19H33.5C38.194 19 42 22.582 42 27C42 31.418 38.194 35 33.5 35H23" stroke="url(#res-grad-primary)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M32.5 35L42.5 45" stroke="url(#res-grad-accent)" stroke-width="3.5" stroke-linecap="round"/>
+  <!-- Core Frequency Node -->
+  <circle cx="33" cy="27" r="3" fill="#e879f9"/>
+</svg>

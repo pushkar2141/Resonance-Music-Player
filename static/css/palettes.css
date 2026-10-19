@@ -1,0 +1,326 @@
+/* ==========================================================================
+   RESONANCE — 6 USER-SELECTABLE COLOR PALETTES × 2 THEME MODES
+   Section 5.8 & Section 16.1 Specification
+   Cross-fades smoothly over 700ms using CSS @property
+   ========================================================================== */
+
+@property --bgA {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #cfe3ff;
+}
+
+@property --bgB {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #e9defa;
+}
+
+@property --o1 {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #6aa8ff;
+}
+
+@property --o2 {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #ffb3e0;
+}
+
+@property --acc {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #2855c7;
+}
+
+@property --art-1 {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #6aa8ff;
+}
+
+@property --art-2 {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #c4a1ff;
+}
+
+@property --art-3 {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #3b6fe0;
+}
+
+:root {
+  transition:
+    --bgA var(--dur-palette) var(--ease-out),
+    --bgB var(--dur-palette) var(--ease-out),
+    --o1 var(--dur-palette) var(--ease-out),
+    --o2 var(--dur-palette) var(--ease-out),
+    --acc var(--dur-palette) var(--ease-out),
+    --art-1 var(--dur-color) var(--ease-out),
+    --art-2 var(--dur-color) var(--ease-out),
+    --art-3 var(--dur-color) var(--ease-out);
+
+  /* Universal alias mappings so every component reads palette variables */
+  --bg-base: var(--bgA);
+  --bg-secondary: var(--bgB);
+  --text-primary: var(--txt);
+  --text-secondary: var(--sub);
+  --text-tertiary: var(--muted);
+  --accent: var(--acc);
+  --on-accent: var(--on-acc);
+  --accent-soft: color-mix(in srgb, var(--acc) 16%, transparent);
+  --glow-color: var(--glow);
+}
+
+/* ==========================================================================
+   1. ICE BLUE ("ice") — Default Palette
+   Light: Ice Blue | Dark: Liquid Midnight
+   ========================================================================== */
+:root[data-palette="ice"][data-mode="light"],
+:root:not([data-palette])[data-mode="light"] {
+  --bgA: #cfe3ff;
+  --bgB: #e9defa;
+  --o1: #6aa8ff;
+  --o2: #ffb3e0;
+  --acc: #2855c7;
+  --on-acc: #ffffff;
+  --txt: #14203a;
+  --sub: #334468;
+  --muted: #526488;
+  --tint: 255, 255, 255;
+  --edge: rgba(255, 255, 255, 0.68);
+  --edge-top: rgba(255, 255, 255, 0.94);
+  --hi: rgba(255, 255, 255, 0.42);
+  --glow: rgba(106, 168, 255, 0.28);
+  --sh: rgba(20, 32, 58, 0.12);
+  --track: rgba(20, 32, 58, 0.14);
+}
+
+:root[data-palette="ice"][data-mode="dark"],
+:root:not([data-palette])[data-mode="dark"] {
+  --bgA: #0b1230;
+  --bgB: #1b0f3a;
+  --o1: #4f7dff;
+  --o2: #c26bff;
+  --acc: #8fb2ff;
+  --on-acc: #0b1230;
+  --txt: #eef2ff;
+  --sub: #b4c2e8;
+  --muted: #8496c4;
+  --tint: 18, 28, 68;
+  --edge: rgba(180, 205, 255, 0.18);
+  --edge-top: rgba(220, 235, 255, 0.36);
+  --hi: rgba(255, 255, 255, 0.10);
+  --glow: rgba(79, 125, 255, 0.26);
+  --sh: rgba(2, 5, 18, 0.52);
+  --track: rgba(238, 242, 255, 0.16);
+}
+
+/* ==========================================================================
+   2. ROSE QUARTZ ("rose")
+   ========================================================================== */
+:root[data-palette="rose"][data-mode="light"] {
+  --bgA: #ffe1ea;
+  --bgB: #f3dcff;
+  --o1: #ff8fb1;
+  --o2: #c4a1ff;
+  --acc: #b81d52;
+  --on-acc: #ffffff;
+  --txt: #3a1424;
+  --sub: #632d44;
+  --muted: #824860;
+  --tint: 255, 255, 255;
+  --edge: rgba(255, 255, 255, 0.68);
+  --edge-top: rgba(255, 255, 255, 0.94);
+  --hi: rgba(255, 255, 255, 0.42);
+  --glow: rgba(255, 143, 177, 0.28);
+  --sh: rgba(58, 20, 36, 0.12);
+  --track: rgba(58, 20, 36, 0.14);
+}
+
+:root[data-palette="rose"][data-mode="dark"] {
+  --bgA: #210b16;
+  --bgB: #260e36;
+  --o1: #ff6b9d;
+  --o2: #b57cff;
+  --acc: #ff9ebb;
+  --on-acc: #210b16;
+  --txt: #fff0f5;
+  --sub: #e5b8c9;
+  --muted: #b58498;
+  --tint: 48, 16, 36;
+  --edge: rgba(255, 190, 215, 0.18);
+  --edge-top: rgba(255, 220, 235, 0.36);
+  --hi: rgba(255, 255, 255, 0.10);
+  --glow: rgba(255, 107, 157, 0.26);
+  --sh: rgba(12, 2, 8, 0.55);
+  --track: rgba(255, 240, 245, 0.16);
+}
+
+/* ==========================================================================
+   3. MINT MIST ("mint")
+   ========================================================================== */
+:root[data-palette="mint"][data-mode="light"] {
+  --bgA: #d9f7ec;
+  --bgB: #dff0ff;
+  --o1: #3ddc97;
+  --o2: #7cc7ff;
+  --acc: #08734b;
+  --on-acc: #ffffff;
+  --txt: #0f2a24;
+  --sub: #275248;
+  --muted: #467368;
+  --tint: 255, 255, 255;
+  --edge: rgba(255, 255, 255, 0.68);
+  --edge-top: rgba(255, 255, 255, 0.94);
+  --hi: rgba(255, 255, 255, 0.42);
+  --glow: rgba(61, 220, 151, 0.26);
+  --sh: rgba(15, 42, 36, 0.12);
+  --track: rgba(15, 42, 36, 0.14);
+}
+
+:root[data-palette="mint"][data-mode="dark"] {
+  --bgA: #071f1a;
+  --bgB: #0a1c30;
+  --o1: #2ce095;
+  --o2: #5cb8ff;
+  --acc: #5ce6ae;
+  --on-acc: #071f1a;
+  --txt: #ecfdf5;
+  --sub: #a8decb;
+  --muted: #76b09c;
+  --tint: 12, 42, 36;
+  --edge: rgba(160, 245, 215, 0.18);
+  --edge-top: rgba(210, 255, 238, 0.36);
+  --hi: rgba(255, 255, 255, 0.10);
+  --glow: rgba(44, 224, 149, 0.25);
+  --sh: rgba(2, 10, 8, 0.55);
+  --track: rgba(236, 253, 245, 0.16);
+}
+
+/* ==========================================================================
+   4. PEACH SUNRISE ("peach")
+   ========================================================================== */
+:root[data-palette="peach"][data-mode="light"] {
+  --bgA: #ffe6d2;
+  --bgB: #ffd9e6;
+  --o1: #ff9a62;
+  --o2: #ffc857;
+  --acc: #bf3b08;
+  --on-acc: #ffffff;
+  --txt: #3a1c10;
+  --sub: #663826;
+  --muted: #875440;
+  --tint: 255, 255, 255;
+  --edge: rgba(255, 255, 255, 0.68);
+  --edge-top: rgba(255, 255, 255, 0.94);
+  --hi: rgba(255, 255, 255, 0.42);
+  --glow: rgba(255, 154, 98, 0.28);
+  --sh: rgba(58, 28, 16, 0.12);
+  --track: rgba(58, 28, 16, 0.14);
+}
+
+:root[data-palette="peach"][data-mode="dark"] {
+  --bgA: #241109;
+  --bgB: #290e1b;
+  --o1: #ff8347;
+  --o2: #ffb642;
+  --acc: #ffb085;
+  --on-acc: #241109;
+  --txt: #fff5f0;
+  --sub: #e8beaa;
+  --muted: #b88a74;
+  --tint: 48, 24, 16;
+  --edge: rgba(255, 205, 180, 0.18);
+  --edge-top: rgba(255, 230, 215, 0.36);
+  --hi: rgba(255, 255, 255, 0.10);
+  --glow: rgba(255, 131, 71, 0.26);
+  --sh: rgba(12, 4, 2, 0.55);
+  --track: rgba(255, 245, 240, 0.16);
+}
+
+/* ==========================================================================
+   5. LAVENDER HAZE ("lavender")
+   ========================================================================== */
+:root[data-palette="lavender"][data-mode="light"] {
+  --bgA: #e6dcff;
+  --bgB: #dbe6ff;
+  --o1: #9d7bff;
+  --o2: #7ad7ff;
+  --acc: #5c38cf;
+  --on-acc: #ffffff;
+  --txt: #1f1740;
+  --sub: #443870;
+  --muted: #645694;
+  --tint: 255, 255, 255;
+  --edge: rgba(255, 255, 255, 0.68);
+  --edge-top: rgba(255, 255, 255, 0.94);
+  --hi: rgba(255, 255, 255, 0.42);
+  --glow: rgba(157, 123, 255, 0.28);
+  --sh: rgba(31, 23, 64, 0.12);
+  --track: rgba(31, 23, 64, 0.14);
+}
+
+:root[data-palette="lavender"][data-mode="dark"] {
+  --bgA: #140d2e;
+  --bgB: #0d1836;
+  --o1: #8d66ff;
+  --o2: #5cc8ff;
+  --acc: #b69eff;
+  --on-acc: #140d2e;
+  --txt: #f3f0ff;
+  --sub: #c2b8e8;
+  --muted: #9184bd;
+  --tint: 28, 20, 58;
+  --edge: rgba(205, 190, 255, 0.18);
+  --edge-top: rgba(230, 222, 255, 0.36);
+  --hi: rgba(255, 255, 255, 0.10);
+  --glow: rgba(141, 102, 255, 0.26);
+  --sh: rgba(5, 2, 16, 0.55);
+  --track: rgba(243, 240, 255, 0.16);
+}
+
+/* ==========================================================================
+   6. ADAPTIVE ARTWORK ("artwork") — Driven by Playing Song's Extracted Palette
+   Uses --art-1, --art-2, --art-3 with WCAG-checked contrast fallbacks
+   ========================================================================== */
+:root[data-palette="artwork"][data-mode="light"] {
+  --bgA: var(--art-bgA-light, #d4e4ff);
+  --bgB: var(--art-bgB-light, #eeddff);
+  --o1: var(--art-1);
+  --o2: var(--art-2);
+  --acc: var(--art-acc-light, #2855c7);
+  --on-acc: #ffffff;
+  --txt: #141b2d;
+  --sub: #36415c;
+  --muted: #566380;
+  --tint: 255, 255, 255;
+  --edge: rgba(255, 255, 255, 0.70);
+  --edge-top: rgba(255, 255, 255, 0.95);
+  --hi: rgba(255, 255, 255, 0.44);
+  --glow: color-mix(in srgb, var(--art-1) 30%, transparent);
+  --sh: rgba(20, 27, 45, 0.13);
+  --track: rgba(20, 27, 45, 0.15);
+}
+
+:root[data-palette="artwork"][data-mode="dark"] {
+  --bgA: var(--art-bgA-dark, #0c132b);
+  --bgB: var(--art-bgB-dark, #190e30);
+  --o1: var(--art-1);
+  --o2: var(--art-2);
+  --acc: var(--art-acc-dark, #9ec0ff);
+  --on-acc: #0b1024;
+  --txt: #f2f5ff;
+  --sub: #bcc6e0;
+  --muted: #8a96b8;
+  --tint: 20, 24, 52;
+  --edge: rgba(220, 230, 255, 0.18);
+  --edge-top: rgba(240, 245, 255, 0.36);
+  --hi: rgba(255, 255, 255, 0.10);
+  --glow: color-mix(in srgb, var(--art-1) 28%, transparent);
+  --sh: rgba(2, 4, 14, 0.56);
+  --track: rgba(242, 245, 255, 0.16);
+}

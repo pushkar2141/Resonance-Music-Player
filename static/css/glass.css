@@ -1,0 +1,202 @@
+/* ==========================================================================
+   RESONANCE — "LIQUID CRYSTAL" 5-LAYER GLASSMORPHISM ENGINE (G0–G4)
+   Section 4.1 & Section 5.1 Specification
+   1. Base translucent crystal fill (palette --tint + adjustable --glass-opacity)
+   2. Diagonal specular reflection (top-left -> bottom-right sheen)
+   3. 2px bright specular top edge + bottom inner underglow (var(--glow))
+   4. Tactile SVG fractal noise grain (~3% opacity)
+   5. Soft outer shadow + ambient palette/artwork aura
+   ========================================================================== */
+
+:root[data-mode="light"] {
+  --g0-fill: rgba(var(--tint), calc(var(--glass-opacity) * 0.65));
+  --g1-fill: rgba(var(--tint), calc(var(--glass-opacity) * 0.92));
+  --g2-fill: rgba(var(--tint), calc(var(--glass-opacity) * 1.08));
+  --g3-fill: rgba(var(--tint), calc(var(--glass-opacity) * 1.22));
+  --g4-fill: rgba(var(--tint), calc(var(--glass-opacity) * 1.42));
+}
+
+:root[data-mode="dark"] {
+  --g0-fill: rgba(10, 10, 22, 0.45);
+  --g1-fill: rgba(var(--tint), calc(var(--glass-opacity) * 0.72));
+  --g2-fill: rgba(var(--tint), calc(var(--glass-opacity) * 0.88));
+  --g3-fill: rgba(var(--tint), calc(var(--glass-opacity) * 1.06));
+  --g4-fill: rgba(var(--tint), calc(var(--glass-opacity) * 1.38));
+}
+
+/* Shared 5-Layer Liquid Crystal Surface Base */
+.glass-g0,
+.glass-g1,
+.glass-g2,
+.glass-g3,
+.glass-g4 {
+  position: relative;
+  background-repeat: no-repeat, repeat;
+  background-size: 100% 100%, 160px 160px;
+  transition:
+    transform var(--dur-hover) var(--ease-out),
+    box-shadow var(--dur-hover) var(--ease-out),
+    background-color var(--dur-palette) var(--ease-out),
+    border-color var(--dur-hover) var(--ease-out);
+}
+
+/* --------------------------------------------------------------------------
+   G0 Veil — Page-wide overlays, modal backdrops, scrims
+   -------------------------------------------------------------------------- */
+.glass-g0 {
+  background-color: var(--g0-fill);
+  backdrop-filter: blur(var(--g0-blur)) saturate(var(--g0-sat));
+  -webkit-backdrop-filter: blur(var(--g0-blur)) saturate(var(--g0-sat));
+}
+
+/* --------------------------------------------------------------------------
+   G1 Surface — Cards, list rows, tiles (24px radius, 2px top specular + underglow)
+   -------------------------------------------------------------------------- */
+.glass-g1 {
+  background-color: var(--g1-fill);
+  background-image:
+    linear-gradient(135deg, var(--hi) 0%, rgba(255, 255, 255, 0) 42%),
+    var(--grain-svg);
+  backdrop-filter: blur(var(--g1-blur)) saturate(var(--g1-sat));
+  -webkit-backdrop-filter: blur(var(--g1-blur)) saturate(var(--g1-sat));
+  border: 1px solid var(--edge);
+  border-radius: var(--r-card);
+  box-shadow:
+    inset 0 2px 1px 0 var(--edge-top),
+    inset 0 -8px 20px -8px var(--glow),
+    0 10px 28px -4px var(--sh);
+}
+
+/* Interactive Card Lift (Section 5.5: 2–4px lift on hover + edge light) */
+.glass-g1.interactive:hover {
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--acc) 42%, var(--edge));
+  box-shadow:
+    inset 0 2px 2px 0 var(--edge-top),
+    inset 0 -10px 24px -6px var(--glow),
+    0 16px 36px -6px var(--sh),
+    0 0 24px -4px var(--glow);
+}
+
+.glass-g1.interactive:active {
+  transform: translateY(-1px) scale(0.992);
+  transition-duration: var(--dur-press);
+}
+
+/* --------------------------------------------------------------------------
+   G2 Panel — Sidebar, top bar, queue, settings panels (32px radius)
+   -------------------------------------------------------------------------- */
+.glass-g2 {
+  background-color: var(--g2-fill);
+  background-image:
+    linear-gradient(135deg, var(--hi) 0%, rgba(255, 255, 255, 0) 46%),
+    var(--grain-svg);
+  backdrop-filter: blur(var(--g2-blur)) saturate(var(--g2-sat));
+  -webkit-backdrop-filter: blur(var(--g2-blur)) saturate(var(--g2-sat));
+  border: 1px solid var(--edge);
+  border-radius: var(--r-panel);
+  box-shadow:
+    inset 0 2px 1.5px 0 var(--edge-top),
+    inset 0 -12px 28px -10px var(--glow),
+    0 18px 48px -8px var(--sh);
+}
+
+/* --------------------------------------------------------------------------
+   G3 Floating — Bottom player, mini player, popovers, toasts (32px radius)
+   -------------------------------------------------------------------------- */
+.glass-g3 {
+  background-color: var(--g3-fill);
+  background-image:
+    linear-gradient(135deg, var(--hi) 0%, rgba(255, 255, 255, 0) 48%),
+    var(--grain-svg);
+  backdrop-filter: blur(var(--g3-blur)) saturate(var(--g3-sat));
+  -webkit-backdrop-filter: blur(var(--g3-blur)) saturate(var(--g3-sat));
+  border: 1px solid var(--edge);
+  border-radius: var(--r-panel);
+  box-shadow:
+    inset 0 2px 2px 0 var(--edge-top),
+    inset 0 -14px 32px -10px var(--glow),
+    0 24px 64px -10px var(--sh),
+    0 8px 36px -6px var(--glow);
+}
+
+/* --------------------------------------------------------------------------
+   G4 Modal — Dialogs, expanded player chrome, bottom sheets (36px radius)
+   -------------------------------------------------------------------------- */
+.glass-g4 {
+  background-color: var(--g4-fill);
+  background-image:
+    linear-gradient(135deg, var(--hi) 0%, rgba(255, 255, 255, 0) 50%),
+    var(--grain-svg);
+  backdrop-filter: blur(var(--g4-blur)) saturate(var(--g4-sat));
+  -webkit-backdrop-filter: blur(var(--g4-blur)) saturate(var(--g4-sat));
+  border: 1px solid var(--edge);
+  border-radius: var(--r-modal);
+  box-shadow:
+    inset 0 2px 2px 0 var(--edge-top),
+    inset 0 -16px 36px -10px var(--glow),
+    0 32px 96px -12px var(--sh),
+    0 12px 48px -8px var(--glow);
+}
+
+/* --------------------------------------------------------------------------
+   5.7 Premium Details: Hairline Gradient Borders, Specular Sweep & Selected Edge
+   -------------------------------------------------------------------------- */
+.hairline-gradient-border {
+  position: relative;
+}
+
+.hairline-gradient-border::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    var(--edge-top) 0%,
+    color-mix(in srgb, var(--acc) 36%, transparent) 50%,
+    transparent 100%
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Specular sweep on floating bottom player */
+.specular-sweep {
+  overflow: hidden;
+}
+
+.specular-sweep::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -40%;
+  width: 35%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in srgb, var(--hi) 45%, transparent) 50%,
+    transparent 100%
+  );
+  transform: skewX(-24deg);
+  pointer-events: none;
+  opacity: 0.65;
+}
+
+/* Illuminated Edge for Selected / Playing Cards (Section 5.7) */
+.is-selected-surface,
+.is-playing-surface {
+  border-color: color-mix(in srgb, var(--acc) 68%, var(--edge)) !important;
+  box-shadow:
+    inset 0 2px 2px 0 var(--edge-top),
+    inset 0 0 0 1px color-mix(in srgb, var(--acc) 35%, transparent),
+    inset 0 -12px 28px -8px var(--glow),
+    0 14px 36px -6px var(--sh),
+    0 0 28px -4px var(--glow) !important;
+}

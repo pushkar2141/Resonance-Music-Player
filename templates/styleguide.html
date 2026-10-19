@@ -1,0 +1,246 @@
+{% extends "base.html" %}
+{% block title %}Resonance — Liquid Crystal Styleguide & Palette Studio{% endblock %}
+{% block head %}
+<style>
+  body {
+    overflow-y: auto !important;
+    height: auto !important;
+    min-height: 100dvh;
+  }
+  .sg-container {
+    position: relative;
+    z-index: 2;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: var(--sp-32) var(--sp-24) var(--sp-64);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-32);
+  }
+  .sg-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-16);
+    padding: var(--sp-24);
+  }
+  .sg-section {
+    padding: var(--sp-24);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-24);
+  }
+  .sg-grid-5 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: var(--sp-16);
+  }
+  .sg-glass-demo {
+    padding: var(--sp-24);
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .sg-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--sp-12);
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+<!-- Atmospheric Background Orbs -->
+<div class="ambient-canvas" aria-hidden="true">
+  <div class="ambient-orb orb-1"></div>
+  <div class="ambient-orb orb-2"></div>
+  <div class="ambient-orb orb-3"></div>
+  <div class="ambient-vignette"></div>
+</div>
+
+<div class="sg-container">
+  <!-- Top Styleguide Control Bar -->
+  <header class="glass-g2 hairline-gradient-border sg-header">
+    <div style="display:flex; align-items:center; gap:14px;">
+      <div class="brand-mark-wrap" style="width:44px; height:44px; flex-shrink:0; border-radius:999px; background:var(--acc); color:var(--on-acc); display:flex; align-items:center; justify-content:center;">
+        <svg style="width:28px; height:28px;"><use href="#i-brand-logo"/></svg>
+      </div>
+      <div>
+        <h1 class="text-title-lg">Resonance — Liquid Crystal Design System</h1>
+        <p class="text-caption">5-Layer Crystal Glass (G0–G4) · 6 Palettes × 2 Modes · WCAG AA Enforced</p>
+      </div>
+    </div>
+
+    <div class="sg-row">
+      <div class="sg-row" role="group" aria-label="Palette Switcher">
+        <button type="button" class="chip is-active" data-sg-palette="ice">Ice Blue</button>
+        <button type="button" class="chip" data-sg-palette="rose">Rose Quartz</button>
+        <button type="button" class="chip" data-sg-palette="mint">Mint Mist</button>
+        <button type="button" class="chip" data-sg-palette="peach">Peach Sunrise</button>
+        <button type="button" class="chip" data-sg-palette="lavender">Lavender Haze</button>
+        <button type="button" class="chip" data-sg-palette="artwork">Adaptive Artwork</button>
+      </div>
+      <div class="sg-row" role="group" aria-label="Theme Mode Switcher">
+        <button type="button" class="btn btn-primary btn-sm" id="sg-mode-light" data-sg-mode="light">
+          <svg><use href="#i-sun"/></svg><span>Light</span>
+        </button>
+        <button type="button" class="btn btn-glass btn-sm" id="sg-mode-dark" data-sg-mode="dark">
+          <svg><use href="#i-moon"/></svg><span>Dark</span>
+        </button>
+      </div>
+      <a href="/" class="btn btn-glass btn-sm">Open Player</a>
+    </div>
+  </header>
+
+  <!-- 1. Five-Tier Liquid Crystal Glass Hierarchy (G0–G4) -->
+  <section class="glass-g2 sg-section" aria-labelledby="sec-glass">
+    <div>
+      <span class="badge">Section 4.1 & 5.1</span>
+      <h2 id="sec-glass" class="text-title-md" style="margin-top:6px;">Five-Layer Liquid Crystal Surfaces (G0–G4)</h2>
+      <p class="text-ui text-secondary">200–240% saturation · 30–36px blur · 2px specular top edge · bottom inner underglow · 3% SVG fractal grain</p>
+    </div>
+
+    <div class="sg-grid-5">
+      <div class="glass-g0 sg-glass-demo" style="border-radius:var(--r-card); border:1px dashed var(--edge);">
+        <span class="badge">G0 Veil</span>
+        <div>
+          <div class="text-title-md">Scrims & Backdrops</div>
+          <p class="text-caption">Blur: calc(base * 0.32) · Saturate: 140%</p>
+        </div>
+      </div>
+
+      <div class="glass-g1 interactive sg-glass-demo" id="contrast-sample-g1">
+        <span class="badge">G1 Surface</span>
+        <div>
+          <div class="text-title-md" id="contrast-sample-txt">Cards, Rows & Tiles</div>
+          <p class="text-caption" id="contrast-sample-sub">24px radius · 2px top highlight + underglow</p>
+        </div>
+      </div>
+
+      <div class="glass-g2 sg-glass-demo">
+        <span class="badge">G2 Panel</span>
+        <div>
+          <div class="text-title-md">Sidebar & Top Bar</div>
+          <p class="text-caption">32px radius · 225% saturate · crystal depth</p>
+        </div>
+      </div>
+
+      <div class="glass-g3 specular-sweep sg-glass-demo">
+        <span class="badge">G3 Floating</span>
+        <div>
+          <div class="text-title-md">Bottom Player & Toasts</div>
+          <p class="text-caption">32px radius · 235% saturate + ambient glow</p>
+        </div>
+      </div>
+
+      <div class="glass-g4 hairline-gradient-border sg-glass-demo">
+        <span class="badge">G4 Modal</span>
+        <div>
+          <div class="text-title-md">Dialogs & Sheets</div>
+          <p class="text-caption">36px radius · 240% saturate + deep elevation</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Typography Scale -->
+  <section class="glass-g2 sg-section" aria-labelledby="sec-type">
+    <div>
+      <span class="badge">Section 5.4</span>
+      <h2 id="sec-type" class="text-title-md" style="margin-top:6px;">Fluid Typography & Tabular Numerals</h2>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:12px;">
+      <div class="text-display-xl">Feel Every Frequency (56px)</div>
+      <div class="text-display-lg">Liquid Crystal Acoustics (40px)</div>
+      <div class="text-title-lg">Atmospheric Harmonic Series (28px)</div>
+      <div class="text-title-md">Studio Reference Equalizer (20px)</div>
+      <p class="text-body">Body 16px — Every glass surface is engineered from five distinct optical layers with WCAG AA contrast enforcement across all six user-selectable palettes.</p>
+      <p class="text-ui text-secondary">UI 14px Medium · Secondary hierarchy text · <span class="tabular-nums">03:42 / 07:18</span></p>
+      <p class="text-caption">CAPTION 12PX · +0.014EM TRACKING · METADATA & TIMESTAMPS</p>
+    </div>
+  </section>
+
+  <!-- 3. Buttons, Chips, Inputs, Sliders, Skeletons & Toasts -->
+  <section class="glass-g2 sg-section" aria-labelledby="sec-controls">
+    <div>
+      <span class="badge">Section 5.5 & 5.7</span>
+      <h2 id="sec-controls" class="text-title-md" style="margin-top:6px;">Interactive Controls, Inputs, Toasts & Skeletons</h2>
+    </div>
+
+    <div class="sg-row">
+      <button type="button" class="btn btn-primary" id="contrast-sample-btn">
+        <svg><use href="#i-play"/></svg><span>Primary Accent Action</span>
+      </button>
+      <button type="button" class="btn btn-glass">
+        <svg><use href="#i-upload"/></svg><span>Crystal Glass Button</span>
+      </button>
+      <button type="button" class="btn btn-ghost">Ghost Action</button>
+      <button type="button" class="btn btn-danger">
+        <svg><use href="#i-trash"/></svg><span>Delete Track</span>
+      </button>
+      <button type="button" class="btn-icon-primary" aria-label="Play">
+        <svg><use href="#i-play"/></svg>
+      </button>
+      <button type="button" class="btn-icon is-active" aria-label="Shuffle">
+        <svg><use href="#i-shuffle"/></svg>
+      </button>
+      <button type="button" class="btn-icon btn-like is-liked" aria-label="Liked">
+        <svg><use href="#i-heart-fill"/></svg>
+      </button>
+    </div>
+
+    <div class="sg-row">
+      <div class="search-box">
+        <svg class="search-icon"><use href="#i-search"/></svg>
+        <input type="search" class="input-glass" placeholder="Search songs, artists, albums..." value="Crystal">
+        <span class="search-kbd">/</span>
+      </div>
+      <select class="select-glass" style="max-width:200px;" aria-label="Sort order">
+        <option>Sort: Date Added</option>
+        <option>Sort: Title (A–Z)</option>
+      </select>
+      <div style="flex:1; min-width:200px;">
+        <div class="progress-track" role="slider" aria-label="Seek preview" aria-valuenow="62" tabindex="0">
+          <div class="progress-fill" style="width:62%;">
+            <div class="progress-thumb"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sg-row" style="align-items:stretch;">
+      <div class="glass-g3 toast-item" style="position:static;">
+        <svg style="width:18px; height:18px; color:var(--acc);"><use href="#i-sparkles"/></svg>
+        <span class="text-ui">Palette switched to Liquid Crystal</span>
+      </div>
+      <div class="skeleton" style="width:220px; height:52px;"></div>
+    </div>
+  </section>
+</div>
+
+<script>
+  document.querySelectorAll('[data-sg-palette]').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var p = btn.getAttribute('data-sg-palette');
+      document.documentElement.setAttribute('data-palette', p);
+      localStorage.setItem('resonance_palette', p);
+      document.querySelectorAll('[data-sg-palette]').forEach(function(b) {
+        b.classList.toggle('is-active', b === btn);
+      });
+    });
+  });
+
+  document.querySelectorAll('[data-sg-mode]').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var m = btn.getAttribute('data-sg-mode');
+      document.documentElement.setAttribute('data-mode', m);
+      localStorage.setItem('resonance_mode', m);
+      document.getElementById('sg-mode-light').className = m === 'light' ? 'btn btn-primary btn-sm' : 'btn btn-glass btn-sm';
+      document.getElementById('sg-mode-dark').className = m === 'dark' ? 'btn btn-primary btn-sm' : 'btn btn-glass btn-sm';
+    });
+  });
+</script>
+{% endblock %}

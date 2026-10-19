@@ -1,0 +1,470 @@
+{% extends "base.html" %}
+{% block body %}
+<!-- 1. Atmospheric Background (Fixed behind everything, pointer-events: none) -->
+<div class="ambient-canvas" aria-hidden="true">
+  <div class="ambient-orb orb-1"></div>
+  <div class="ambient-orb orb-2"></div>
+  <div class="ambient-orb orb-3"></div>
+  <div class="ambient-vignette"></div>
+</div>
+
+<!-- 2. Main Responsive Application Shell -->
+<div class="app-layout" id="app-shell">
+  <!-- Desktop / Tablet Floating Liquid Crystal Sidebar -->
+  <aside class="glass-g2 hairline-gradient-border app-sidebar" aria-label="Primary Navigation">
+    <div>
+      <div class="sidebar-brand" data-route="home" role="button" tabindex="0" aria-label="Resonance Home">
+        <div class="sidebar-brand-logo">
+          <svg><use href="#i-brand-logo"/></svg>
+        </div>
+        <div class="sidebar-brand-text">
+          <div class="sidebar-brand-name">Resonance</div>
+          <div class="sidebar-brand-tagline">Feel Every Frequency.</div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav-section" aria-label="Explore">
+        <div class="sidebar-nav-label">Experience</div>
+        <a href="#/home" class="nav-item is-active" data-route="home">
+          <svg><use href="#i-home"/></svg><span>Home</span>
+        </a>
+        <a href="#/discover" class="nav-item" data-route="discover">
+          <svg><use href="#i-compass"/></svg><span>Discover</span>
+        </a>
+        <a href="#/library" class="nav-item" data-route="library">
+          <svg><use href="#i-library"/></svg><span>My Library</span>
+        </a>
+        <a href="#/songs" class="nav-item" data-route="songs">
+          <svg><use href="#i-music"/></svg><span>All Songs</span>
+        </a>
+      </nav>
+
+      <nav class="sidebar-nav-section" aria-label="Collection">
+        <div class="sidebar-nav-label">Personal</div>
+        <a href="#/favorites" class="nav-item" data-route="favorites">
+          <svg><use href="#i-heart"/></svg><span>Favorites</span>
+        </a>
+        <a href="#/playlists" class="nav-item" data-route="playlists">
+          <svg><use href="#i-list-music"/></svg><span>Playlists</span>
+        </a>
+        <a href="#/recent" class="nav-item" data-route="recent">
+          <svg><use href="#i-clock"/></svg><span>Recently Played</span>
+        </a>
+        <a href="#/settings" class="nav-item" data-route="settings">
+          <svg><use href="#i-settings"/></svg><span>Settings</span>
+        </a>
+      </nav>
+    </div>
+
+    <div class="glass-g1 sidebar-footer-card" style="padding:14px; display:flex; flex-direction:column; gap:10px;">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <svg style="width:18px; height:18px; color:var(--acc);"><use href="#i-palette"/></svg>
+        <span class="text-ui" style="font-weight:600;">Liquid Crystal</span>
+      </div>
+      <p class="text-caption">Customize palettes &amp; crystal depth in Settings, or upload tracks anytime.</p>
+      <button type="button" class="btn btn-primary btn-sm" data-action="open-upload" style="width:100%;">
+        <svg><use href="#i-upload"/></svg><span>Upload Music</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content Column (Top Bar + Scrollable View Mount) -->
+  <div class="app-main-col">
+    <header class="glass-g2 app-topbar">
+      <div class="topbar-left">
+        <h1 class="topbar-title-badge" id="topbar-view-title">Home</h1>
+        <div class="search-box" role="search">
+          <svg class="search-icon"><use href="#i-search"/></svg>
+          <input
+            type="search"
+            id="global-search-input"
+            class="input-glass"
+            placeholder="Search songs, artists, albums..."
+            aria-label="Search library"
+            autocomplete="off"
+          >
+          <button type="button" class="search-clear" id="btn-search-clear" style="display:none;" aria-label="Clear search">
+            <svg style="width:15px; height:15px;"><use href="#i-x"/></svg>
+          </button>
+          <span class="search-kbd" aria-hidden="true">/</span>
+        </div>
+      </div>
+
+      <div class="topbar-right">
+        <button type="button" class="btn btn-primary btn-sm" id="btn-topbar-upload" data-action="open-upload" aria-label="Upload audio">
+          <svg><use href="#i-upload"/></svg><span class="hide-mobile">Upload</span>
+        </button>
+        <button type="button" class="btn-icon" data-action="open-eq" title="Studio Equalizer" aria-label="Open Equalizer">
+          <svg><use href="#i-sliders"/></svg>
+        </button>
+        <button type="button" class="btn-icon hide-xs" data-action="open-sleep-timer" id="btn-topbar-sleep" title="Sleep Timer" aria-label="Open Sleep Timer">
+          <svg><use href="#i-clock"/></svg>
+        </button>
+        <button type="button" class="btn-icon" id="btn-theme-toggle" data-action="toggle-mode" title="Toggle Light / Dark Mode" aria-label="Toggle Light or Dark Mode">
+          <svg id="theme-toggle-icon"><use href="#i-moon"/></svg>
+        </button>
+        <button type="button" class="btn-icon hide-mobile" data-action="open-shortcuts" title="Keyboard Shortcuts (?)" aria-label="Keyboard Shortcuts">
+          <svg><use href="#i-keyboard"/></svg>
+        </button>
+        <button type="button" class="btn-icon hide-mobile" data-action="go-settings" title="Appearance &amp; Settings" aria-label="Open Settings">
+          <svg><use href="#i-palette"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <main class="app-viewport" id="view-mount" tabindex="-1" aria-live="polite">
+      <!-- Views rendered dynamically by static/js/ui/views.js -->
+    </main>
+  </div>
+</div>
+
+<!-- 3. Desktop & Tablet Floating Liquid Crystal Bottom Player -->
+<section class="glass-g3 specular-sweep hairline-gradient-border bottom-player" id="bottom-player" aria-label="Audio Player">
+  <div class="bp-track">
+    <button type="button" class="bp-art-btn" data-action="toggle-expanded" aria-label="Expand player">
+      <img id="bp-cover-img" src="/static/images/logo.svg" alt="Current track artwork">
+    </button>
+    <div class="bp-meta">
+      <div class="text-ui truncate" id="bp-title" style="font-weight:600;">Ready to Resonate</div>
+      <div class="text-caption truncate" id="bp-artist">Select or upload a track</div>
+    </div>
+    <button type="button" class="btn-icon btn-like" id="bp-like-btn" data-action="toggle-current-like" aria-label="Favorite current track">
+      <svg><use href="#i-heart"/></svg>
+    </button>
+  </div>
+
+  <div class="bp-center">
+    <div class="bp-transport">
+      <button type="button" class="btn-icon" id="bp-shuffle-btn" data-action="toggle-shuffle" title="Shuffle (S)" aria-label="Toggle Shuffle">
+        <svg><use href="#i-shuffle"/></svg>
+      </button>
+      <button type="button" class="btn-icon" data-action="prev-track" title="Previous (Shift+Left)" aria-label="Previous Track">
+        <svg><use href="#i-skip-back"/></svg>
+      </button>
+      <button type="button" class="btn-icon-primary" id="bp-play-btn" data-action="toggle-play" title="Play / Pause (Space)" aria-label="Play or Pause">
+        <svg id="bp-play-icon"><use href="#i-play"/></svg>
+      </button>
+      <button type="button" class="btn-icon" data-action="next-track" title="Next (Shift+Right)" aria-label="Next Track">
+        <svg><use href="#i-skip-forward"/></svg>
+      </button>
+      <button type="button" class="btn-icon" id="bp-repeat-btn" data-action="cycle-repeat" title="Repeat (R)" aria-label="Cycle Repeat Mode">
+        <svg id="bp-repeat-icon"><use href="#i-repeat"/></svg>
+      </button>
+    </div>
+
+    <div class="bp-seek-row">
+      <span class="bp-time tabular-nums" id="bp-current-time">0:00</span>
+      <div class="progress-track" id="bp-seek-track" role="slider" aria-label="Seek timeline" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
+        <div class="progress-fill" id="bp-seek-fill" style="width:0%;">
+          <div class="progress-thumb"></div>
+        </div>
+      </div>
+      <span class="bp-time tabular-nums" id="bp-duration" style="text-align:right;">0:00</span>
+    </div>
+  </div>
+
+  <div class="bp-right">
+    <button type="button" class="chip" id="bp-speed-btn" data-action="cycle-speed" title="Playback Speed" aria-label="Cycle playback speed">1x</button>
+    <div class="bp-volume-wrap">
+      <button type="button" class="btn-icon" id="bp-mute-btn" data-action="toggle-mute" title="Mute (M)" aria-label="Toggle Mute">
+        <svg id="bp-volume-icon"><use href="#i-volume-2"/></svg>
+      </button>
+      <div class="progress-track" id="bp-volume-track" role="slider" aria-label="Volume" aria-valuemin="0" aria-valuemax="100" aria-valuenow="80" tabindex="0">
+        <div class="progress-fill" id="bp-volume-fill" style="width:80%;">
+          <div class="progress-thumb"></div>
+        </div>
+      </div>
+    </div>
+    <button type="button" class="btn-icon" data-action="open-queue-tab" title="Queue (Q)" aria-label="Open Queue">
+      <svg><use href="#i-list-music"/></svg>
+    </button>
+    <button type="button" class="btn-icon" data-action="toggle-expanded" title="Expanded Player (F)" aria-label="Open Expanded Player">
+      <svg><use href="#i-maximize"/></svg>
+    </button>
+  </div>
+</section>
+
+<!-- 4. Mobile Docked Mini-Player (<640px) -->
+<section class="glass-g3 mobile-mini-player" id="mobile-mini-player" aria-label="Mini Player">
+  <div class="mini-player-left" data-action="toggle-expanded" role="button" tabindex="0" aria-label="Expand player">
+    <img id="mp-cover-img" class="mini-player-art" src="/static/images/logo.svg" alt="Artwork">
+    <div style="min-width:0; flex:1;">
+      <div class="text-ui truncate" id="mp-title" style="font-weight:600;">Ready to Resonate</div>
+      <div class="text-caption truncate" id="mp-artist">Tap or swipe up to expand</div>
+    </div>
+  </div>
+  <div class="mini-player-controls">
+    <button type="button" class="btn-icon" id="mp-play-btn" data-action="toggle-play" aria-label="Play or Pause">
+      <svg id="mp-play-icon"><use href="#i-play"/></svg>
+    </button>
+    <button type="button" class="btn-icon" data-action="next-track" aria-label="Next Track">
+      <svg><use href="#i-skip-forward"/></svg>
+    </button>
+  </div>
+</section>
+
+<!-- 5. Mobile Safe-Area Bottom Tab Bar (<640px) -->
+<nav class="glass-g2 mobile-tabbar" aria-label="Mobile Navigation">
+  <a href="#/home" class="mobile-tab-btn is-active" data-route="home">
+    <svg><use href="#i-home"/></svg><span>Home</span>
+  </a>
+  <a href="#/search" class="mobile-tab-btn" data-route="search">
+    <svg><use href="#i-search"/></svg><span>Search</span>
+  </a>
+  <a href="#/library" class="mobile-tab-btn" data-route="library">
+    <svg><use href="#i-library"/></svg><span>Library</span>
+  </a>
+  <a href="#/playlists" class="mobile-tab-btn" data-route="playlists">
+    <svg><use href="#i-list-music"/></svg><span>Playlists</span>
+  </a>
+  <a href="#/settings" class="mobile-tab-btn" data-route="settings">
+    <svg><use href="#i-settings"/></svg><span>More</span>
+  </a>
+</nav>
+
+<!-- 6. Immersive Expanded Player Sheet (Desktop 2-Column / Mobile Full-Screen Sheet) -->
+<aside class="glass-g4 hairline-gradient-border expanded-player" id="expanded-player" aria-label="Expanded Audio Player" aria-hidden="true">
+  <header class="ep-header">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <button type="button" class="btn-icon" data-action="close-expanded" aria-label="Close Expanded Player">
+        <svg><use href="#i-chevron-down"/></svg>
+      </button>
+      <div>
+        <div class="text-caption">NOW RESONATING</div>
+        <div class="text-ui" id="ep-album-label" style="font-weight:600;">Liquid Crystal Studio</div>
+      </div>
+    </div>
+
+    <div style="display:flex; align-items:center; gap:8px; flex-wrap:nowrap;">
+      <button type="button" class="chip is-active" id="ep-mode-vinyl" data-action="set-art-mode" data-mode="vinyl">
+        <svg><use href="#i-disc"/></svg><span>Vinyl Disc</span>
+      </button>
+      <button type="button" class="chip" id="ep-mode-clean" data-action="set-art-mode" data-mode="clean">
+        <span>Artwork</span>
+      </button>
+      <button type="button" class="btn-icon" data-action="open-eq" title="Equalizer" aria-label="Open Equalizer">
+        <svg><use href="#i-sliders"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="ep-body">
+    <!-- Left Column: Vinyl / Artwork Stage + Real Web Audio Visualizer -->
+    <div class="ep-stage-col">
+      <div class="vinyl-stage">
+        <div class="vinyl-disc" id="ep-vinyl-disc">
+          <img id="ep-cover-img" class="vinyl-label-art" src="/static/images/logo.svg" alt="Expanded track artwork">
+          <div class="vinyl-spindle"></div>
+        </div>
+      </div>
+
+      <div class="glass-g1 visualizer-box">
+        <canvas id="audio-visualizer-canvas"></canvas>
+        <div style="position:absolute; top:8px; right:8px; display:flex; gap:6px;">
+          <button type="button" class="chip is-active" style="height:26px; padding:0 10px; font-size:11px;" data-action="set-viz-style" data-style="bars">Bars</button>
+          <button type="button" class="chip" style="height:26px; padding:0 10px; font-size:11px;" data-action="set-viz-style" data-style="wave">Wave</button>
+          <button type="button" class="chip" style="height:26px; padding:0 10px; font-size:11px;" data-action="set-viz-style" data-style="circular">Halo</button>
+          <button type="button" class="chip" style="height:26px; padding:0 10px; font-size:11px;" data-action="set-viz-style" data-style="glow">Pulse</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Track Details, Transport, and Queue / Info Tabs -->
+    <div class="ep-side-col">
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
+        <div style="min-width:0;">
+          <h2 class="text-title-lg truncate" id="ep-title">Ready to Resonate</h2>
+          <p class="text-body text-secondary truncate" id="ep-artist">Select or upload a track</p>
+        </div>
+        <button type="button" class="btn-icon btn-like" id="ep-like-btn" data-action="toggle-current-like" aria-label="Favorite track">
+          <svg><use href="#i-heart"/></svg>
+        </button>
+      </div>
+
+      <div>
+        <div class="bp-seek-row" style="margin-bottom:14px;">
+          <span class="bp-time tabular-nums" id="ep-current-time">0:00</span>
+          <div class="progress-track" id="ep-seek-track" role="slider" aria-label="Expanded seek timeline" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
+            <div class="progress-fill" id="ep-seek-fill" style="width:0%;">
+              <div class="progress-thumb"></div>
+            </div>
+          </div>
+          <span class="bp-time tabular-nums" id="ep-duration" style="text-align:right;">0:00</span>
+        </div>
+
+        <div style="display:flex; align-items:center; justify-content:center; gap:18px;">
+          <button type="button" class="btn-icon" id="ep-shuffle-btn" data-action="toggle-shuffle" aria-label="Shuffle">
+            <svg><use href="#i-shuffle"/></svg>
+          </button>
+          <button type="button" class="btn-icon" data-action="prev-track" aria-label="Previous Track">
+            <svg><use href="#i-skip-back"/></svg>
+          </button>
+          <button type="button" class="btn-icon-primary btn-icon-lg" id="ep-play-btn" data-action="toggle-play" aria-label="Play or Pause">
+            <svg id="ep-play-icon"><use href="#i-play"/></svg>
+          </button>
+          <button type="button" class="btn-icon" data-action="next-track" aria-label="Next Track">
+            <svg><use href="#i-skip-forward"/></svg>
+          </button>
+          <button type="button" class="btn-icon" id="ep-repeat-btn" data-action="cycle-repeat" aria-label="Repeat">
+            <svg id="ep-repeat-icon"><use href="#i-repeat"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Queue & Track Info Tabs -->
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:8px; border-bottom:1px solid var(--edge); padding-bottom:8px;">
+        <div style="display:flex; gap:8px;">
+          <button type="button" class="chip is-active" id="ep-tab-btn-queue" data-action="switch-ep-tab" data-tab="queue">Up Next Queue</button>
+          <button type="button" class="chip" id="ep-tab-btn-info" data-action="switch-ep-tab" data-tab="info">Track &amp; Moods</button>
+        </div>
+        <button type="button" class="btn btn-ghost btn-sm" data-action="clear-queue">Clear Queue</button>
+      </div>
+
+      <div class="ep-tab-panel" id="ep-tab-content">
+        <!-- Populated dynamically by player-ui.js -->
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- 7. Modals & Bottom Sheets -->
+<!-- Upload Modal -->
+<div class="glass-g0 modal-backdrop" id="modal-upload" role="dialog" aria-modal="true" aria-labelledby="modal-upload-title">
+  <div class="glass-g4 hairline-gradient-border modal-dialog">
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;">
+      <h2 class="text-title-md" id="modal-upload-title">Upload Audio to Resonance</h2>
+      <button type="button" class="btn-icon" data-action="close-modals" aria-label="Close modal">
+        <svg><use href="#i-x"/></svg>
+      </button>
+    </div>
+
+    <div
+      class="glass-g1"
+      id="upload-dropzone"
+      style="padding:36px 24px; text-align:center; border:2px dashed var(--acc); cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:12px;"
+      role="button"
+      tabindex="0"
+    >
+      <div class="empty-state-icon">
+        <svg><use href="#i-upload"/></svg>
+      </div>
+      <div class="text-title-md">Drag &amp; drop audio files here</div>
+      <p class="text-caption">Supports MP3, FLAC, WAV, OGG, M4A, AAC, OPUS · Up to 150 MB · Server magic-byte &amp; SHA-256 verified</p>
+      <button type="button" class="btn btn-primary btn-sm" id="btn-choose-files">Browse Audio Files</button>
+      <input type="file" id="file-upload-input" accept="audio/*,.mp3,.flac,.wav,.ogg,.m4a,.aac,.opus" multiple style="display:none;">
+    </div>
+
+    <div id="upload-progress-list" style="margin-top:16px; display:flex; flex-direction:column; gap:8px;"></div>
+  </div>
+</div>
+
+<!-- 10-Band Studio Equalizer Modal -->
+<div class="glass-g0 modal-backdrop" id="modal-eq" role="dialog" aria-modal="true" aria-labelledby="modal-eq-title">
+  <div class="glass-g4 hairline-gradient-border modal-dialog" style="max-width:680px;">
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;">
+      <div>
+        <h2 class="text-title-md" id="modal-eq-title">10-Band Studio Equalizer</h2>
+        <p class="text-caption">Real-time Web Audio BiquadFilterNode DSP chain</p>
+      </div>
+      <button type="button" class="btn-icon" data-action="close-modals" aria-label="Close Equalizer">
+        <svg><use href="#i-x"/></svg>
+      </button>
+    </div>
+    <div id="eq-modal-mount"></div>
+  </div>
+</div>
+
+<!-- Playlist Create / Edit Modal -->
+<div class="glass-g0 modal-backdrop" id="modal-playlist" role="dialog" aria-modal="true" aria-labelledby="modal-playlist-title">
+  <div class="glass-g4 hairline-gradient-border modal-dialog" style="max-width:460px;">
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;">
+      <h2 class="text-title-md" id="modal-playlist-title">Create Playlist</h2>
+      <button type="button" class="btn-icon" data-action="close-modals" aria-label="Close">
+        <svg><use href="#i-x"/></svg>
+      </button>
+    </div>
+    <form id="form-playlist" style="display:flex; flex-direction:column; gap:14px;">
+      <input type="hidden" id="playlist-edit-id" value="">
+      <div>
+        <label class="text-caption" for="playlist-name-input">Playlist Name</label>
+        <input type="text" id="playlist-name-input" class="input-glass" placeholder="e.g., Crystal Late Night" required style="margin-top:6px;">
+      </div>
+      <div>
+        <label class="text-caption" for="playlist-desc-input">Description (Optional)</label>
+        <input type="text" id="playlist-desc-input" class="input-glass" placeholder="Atmospheric selections..." style="margin-top:6px;">
+      </div>
+      <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:6px;">
+        <button type="button" class="btn btn-glass" data-action="close-modals">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save Playlist</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Song Actions / Add to Playlist / Metadata Edit Modal -->
+<div class="glass-g0 modal-backdrop" id="modal-song-actions" role="dialog" aria-modal="true" aria-labelledby="modal-song-actions-title">
+  <div class="glass-g4 hairline-gradient-border modal-dialog" style="max-width:480px;">
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;">
+      <h2 class="text-title-md truncate" id="modal-song-actions-title">Track Actions</h2>
+      <button type="button" class="btn-icon" data-action="close-modals" aria-label="Close">
+        <svg><use href="#i-x"/></svg>
+      </button>
+    </div>
+    <div id="song-actions-mount"></div>
+  </div>
+</div>
+
+<!-- Sleep Timer Modal -->
+<div class="glass-g0 modal-backdrop" id="modal-sleep" role="dialog" aria-modal="true" aria-labelledby="modal-sleep-title">
+  <div class="glass-g4 hairline-gradient-border modal-dialog" style="max-width:420px;">
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;">
+      <h2 class="text-title-md" id="modal-sleep-title">Sleep Timer</h2>
+      <button type="button" class="btn-icon" data-action="close-modals" aria-label="Close">
+        <svg><use href="#i-x"/></svg>
+      </button>
+    </div>
+    <p class="text-caption" id="sleep-timer-status" style="margin-bottom:14px;">Fades audio out smoothly over the final 10 seconds.</p>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+      <button type="button" class="btn btn-glass" data-action="set-sleep" data-minutes="15">15 Minutes</button>
+      <button type="button" class="btn btn-glass" data-action="set-sleep" data-minutes="30">30 Minutes</button>
+      <button type="button" class="btn btn-glass" data-action="set-sleep" data-minutes="60">60 Minutes</button>
+      <button type="button" class="btn btn-glass" data-action="set-sleep" data-minutes="eot">End of Track</button>
+    </div>
+    <button type="button" class="btn btn-danger btn-sm" data-action="set-sleep" data-minutes="0" style="width:100%; margin-top:12px;">Cancel Sleep Timer</button>
+  </div>
+</div>
+
+<!-- Keyboard Shortcuts Reference Modal -->
+<div class="glass-g0 modal-backdrop" id="modal-shortcuts" role="dialog" aria-modal="true" aria-labelledby="modal-shortcuts-title">
+  <div class="glass-g4 hairline-gradient-border modal-dialog" style="max-width:520px;">
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;">
+      <h2 class="text-title-md" id="modal-shortcuts-title">Keyboard Shortcuts</h2>
+      <button type="button" class="btn-icon" data-action="close-modals" aria-label="Close">
+        <svg><use href="#i-x"/></svg>
+      </button>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; font-size:13px;">
+      <div class="glass-g1" style="padding:10px 14px; display:flex; justify-content:space-between;"><span>Play / Pause</span><kbd class="badge">Space</kbd></div>
+      <div class="glass-g1" style="padding:10px 14px; display:flex; justify-content:space-between;"><span>Seek ±5s</span><kbd class="badge">← / →</kbd></div>
+      <div class="glass-g1" style="padding:10px 14px; display:flex; justify-content:space-between;"><span>Prev / Next</span><kbd class="badge">Shift + ←/→</kbd></div>
+      <div class="glass-g1" style="padding:10px 14px; display:flex; justify-content:space-between;"><span>Volume ±5%</span><kbd class="badge">↑ / ↓</kbd></div>
+      <div class="glass-g1" style="padding:10px 14px; display:flex; justify-content:space-between;"><span>Mute</span><kbd class="badge">M</kbd></div>
+      <div class="glass-g1" style="padding:10px 14px; display:flex; justify-content:space-between;"><span>Favorite Track</span><kbd class="badge">L</kbd></div>
+      <div class="glass-g1" style="padding:10px 14px; display:flex; justify-content:space-between;"><span>Shuffle</span><kbd class="badge">S</kbd></div>
+      <div class="glass-g1" style="padding:10px 14px; display:flex; justify-content:space-between;"><span>Repeat Mode</span><kbd class="badge">R</kbd></div>
+      <div class="glass-g1" style="padding:10px 14px; display:flex; justify-content:space-between;"><span>Focus Search</span><kbd class="badge">/</kbd></div>
+      <div class="glass-g1" style="padding:10px 14px; display:flex; justify-content:space-between;"><span>Expanded Player</span><kbd class="badge">F</kbd></div>
+      <div class="glass-g1" style="padding:10px 14px; display:flex; justify-content:space-between;"><span>Toggle Queue</span><kbd class="badge">Q</kbd></div>
+      <div class="glass-g1" style="padding:10px 14px; display:flex; justify-content:space-between;"><span>Close Overlay</span><kbd class="badge">Esc</kbd></div>
+    </div>
+  </div>
+</div>
+
+<!-- 8. Toast Notification Container -->
+<div class="toast-stack" id="toast-stack" aria-live="polite" aria-atomic="true"></div>
+
+<!-- Hidden HTML5 Audio Element (Single Source for Web Audio Graph) -->
+<audio id="resonance-audio" preload="metadata" crossorigin="anonymous"></audio>
+
+<script type="module" src="/static/js/main.js"></script>
+{% endblock %}
